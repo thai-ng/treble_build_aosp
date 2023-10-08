@@ -77,17 +77,19 @@ buildVanillaVariant() {
 buildGappsVariant() {
     echo "--> Building treble_arm64_bgN"
     lunch treble_arm64_bgN-userdebug
-    make -j$(nproc --all) installclean
+    # make -j$(nproc --all) installclean
     make -j$(nproc --all) systemimage
-    mv $OUT/system.img $BD/system-treble_arm64_bgN.img
+    # make -j4 systemimage
+    . $BL/flash.sh
+    cp $OUT/system.img $BD/system-duo-aosp.img
     echo
 }
 
 generatePackages() {
     echo "--> Generating packages"
     buildDate="$(date +%Y%m%d)"
-    xz -cv $BD/system-treble_arm64_bvN.img -T0 > $BD/aosp-arm64-ab-vanilla-14.0-$buildDate.img.xz
-    xz -cv $BD/system-treble_arm64_bgN.img -T0 > $BD/aosp-arm64-ab-gapps-14.0-$buildDate.img.xz
+    # xz -cv $BD/system-treble_arm64_bvN.img -T0 > $BD/aosp-arm64-ab-vanilla-14.0-$buildDate.img.xz
+    xz -cv $BD/system-duo-aosp.img -T0 > $BD/system-duo-aosp-14.0-$buildDate.img.xz
     rm -rf $BD/system-*.img
     echo
 }
@@ -97,16 +99,16 @@ generateOta() {
     version="$(date +v%Y.%m.%d)"
     timestamp="$START"
     json="{\"version\": \"$version\",\"date\": \"$timestamp\",\"variants\": ["
-    find $BD/ -name "aosp-*" | sort | {
+    find $BD/ -name "system-*" | sort | {
         while read file; do
             filename="$(basename $file)"
             if [[ $filename == *"vanilla"* ]]; then
                 name="treble_arm64_bvN"
             else
-                name="treble_arm64_bgN"
+                name="system-duo-aosp"
             fi
             size=$(wc -c $file | awk '{print $1}')
-            url="https://github.com/ponces/treble_build_aosp/releases/download/$version/$filename"
+            url="https://github.com/thain/treble_build_aosp/releases/download/$version/$filename"
             json="${json} {\"name\": \"$name\",\"size\": \"$size\",\"url\": \"$url\"},"
         done
         json="${json%?}]}"
@@ -117,12 +119,12 @@ generateOta() {
 
 START=$(date +%s)
 
-initRepos
-syncRepos
-applyPatches
+# initRepos
+# syncRepos
+# applyPatches
 setupEnv
 buildTrebleApp
-buildVanillaVariant
+# buildVanillaVariant
 buildGappsVariant
 generatePackages
 generateOta
