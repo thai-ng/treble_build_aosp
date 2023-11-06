@@ -1,4 +1,4 @@
-# AOSP GSI
+# TrebleDroid AOSP GSI
 
 ## Build
 To get started with building AOSP GSI, you'll need to get familiar with [Git and Repo](https://source.android.com/source/using-repo.html) as well as [How to build a GSI](https://github.com/phhusson/treble_experimentations/wiki/How-to-build-a-GSI%3F).
@@ -14,6 +14,9 @@ To get started with building AOSP GSI, you'll need to get familiar with [Git and
     ```
     bash treble_build_aosp/build.sh
     ```
+
+## Issues
+[Open issue](https://github.com/ponces/treble_build_aosp/issues/new/choose)
 
 ## Credits
 These people have helped this project in some way or another, so they should be the ones who receive all the credit:

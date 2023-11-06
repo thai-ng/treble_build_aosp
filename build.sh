@@ -16,7 +16,7 @@ BD=$HOME/builds
 initRepos() {
     if [ ! -d .repo ]; then
         echo "--> Initializing workspace"
-        repo init -u https://android.googlesource.com/platform/manifest -b android-14.0.0_r2
+        repo init -u https://android.googlesource.com/platform/manifest -b android-14.0.0_r11
         echo
 
         echo "--> Preparing local manifest"
@@ -85,6 +85,20 @@ buildGappsVariant() {
     echo
 }
 
+buildVndkliteVariants() {
+    echo "--> Building treble_arm64_bvN-vndklite"
+    cd treble_adapter
+    sudo bash lite-adapter.sh 64 $BD/system-treble_arm64_bvN.img
+    mv s.img $BD/system-treble_arm64_bvN-vndklite.img
+    sudo rm -rf d tmp
+    echo "--> Building treble_arm64_bgN-vndklite"
+    sudo bash lite-adapter.sh 64 $BD/system-treble_arm64_bgN.img
+    mv s.img $BD/system-treble_arm64_bgN-vndklite.img
+    sudo rm -rf d tmp
+    cd ..
+    echo
+}
+
 generatePackages() {
     echo "--> Generating packages"
     buildDate="$(date +%Y%m%d)"
@@ -97,12 +111,17 @@ generatePackages() {
 generateOta() {
     echo "--> Generating OTA file"
     version="$(date +v%Y.%m.%d)"
+    buildDate="$(date +%Y%m%d)"
     timestamp="$START"
     json="{\"version\": \"$version\",\"date\": \"$timestamp\",\"variants\": ["
     find $BD/ -name "system-*" | sort | {
         while read file; do
             filename="$(basename $file)"
-            if [[ $filename == *"vanilla"* ]]; then
+            if [[ $filename == *"vanilla-vndklite"* ]]; then
+                name="treble_arm64_bvN-vndklite"
+            elif [[ $filename == *"gapps-vndklite"* ]]; then
+                name="treble_arm64_bgN-vndklite"
+            elif [[ $filename == *"vanilla"* ]]; then
                 name="treble_arm64_bvN"
             else
                 name="system-duo-aosp"
