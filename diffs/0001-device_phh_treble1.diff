@@ -1,0 +1,124 @@
+diff --git a/base.mk b/base.mk
+index bf8f11783..fc36bb9c4 100644
+--- a/base.mk
++++ b/base.mk
+@@ -266,3 +266,25 @@ PRODUCT_EXTRA_VNDK_VERSIONS += 28
++
++PRODUCT_COPY_FILES += \
++	device/phh/treble/files/com.microsoft.surface.duo_v1.xml:system/etc/permissions/com.microsoft.surface.duo_v1.xml
++
++PRODUCT_COPY_FILES += \
++	device/phh/treble/files/device_state_configuration.xml:system/etc/devicestate/device_state_configuration.xml
++
++PRODUCT_PACKAGES += \
++	PostureProcessor \
++	SurfaceDuoGeneralOverlay \
++	SurfaceDuo1DisplayFeaturesWMShellOverlay \
++	SurfaceDuo1NoHingeAndroidOverlay \
++	SurfaceDuo1NoHingeWMShellOverlay \
++	SurfaceDuo1DisplayFeaturesOverlay \
++	SurfaceDuo2DisplayFeaturesOverlay \
++	SurfaceDuo2DisplayFeaturesWMShellOverlay \
++	SurfaceDuo2NoHingeAndroidOverlay \
++	SurfaceDuo2NoHingeWMShellOverlay \
++	SurfaceDuo2PostureProcessorOverlay \
++	SurfaceDuoSettingsOverlay
++
++$(call inherit-product-if-exists, vendor/surface/prebuilts/bootanimation/bootanimation.mk)
+diff --git a/files/com.microsoft.surface.duo_v1.xml b/files/com.microsoft.surface.duo_v1.xml
+new file mode 100644
+index 000000000..2a3cfcdf4
+--- /dev/null
++++ b/files/com.microsoft.surface.duo_v1.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<permissions>
++    <unavailable-feature name="com.microsoft.device.display.displaymask" />
++    <oem-permissions>
++        <permission name="surface.permission.USE_OEM_PRIVATE_SENSORS" />
++    </oem-permissions>
++</permissions>
+
+diff --git a/files/device_state_configuration.xml b/files/device_state_configuration.xml
+new file mode 100644
+index 000000000..1647d08b6
+--- /dev/null
++++ b/files/device_state_configuration.xml
+@@ -0,0 +1,18 @@
++<device-state-config>
++  <device-state>
++    <identifier>0</identifier>
++    <name>CLOSED</name>
++  </device-state>
++  <device-state>
++    <identifier>1</identifier>
++    <name>HALF_OPENED</name>
++  </device-state>
++  <device-state>
++    <identifier>2</identifier>
++    <name>OPENED</name>
++  </device-state>
++  <device-state>
++    <identifier>3</identifier>
++    <name>FOLDED</name>
++  </device-state>
++</device-state-config>
+\ No newline at end of file
+diff --git a/phh-on-data.sh b/phh-on-data.sh
+index 472d16ea8..04e725a00 100644
+--- a/phh-on-data.sh
++++ b/phh-on-data.sh
+@@ -29,3 +29,8 @@ if [ "$vndk" = 28 ];then
+     mount $minijailSrc64 /vendor/lib64/libminijail.so
+     mount $minijailSrc /vendor/lib/libminijail.so
+ fi
++
++if [ "$(getprop  persist.sys.phh.duo.disable_hinge)" -eq 1 ]; then
++    setprop vendor.display.bezel_size 0
++    setprop vendor.display.default_bezel_size 0
++fi
+\ No newline at end of file
+diff --git a/sepolicy/hal.te b/sepolicy/hal.te
+index cb44422d0..cb4262d20 100644
+--- a/sepolicy/hal.te
++++ b/sepolicy/hal.te
+@@ -5,6 +5,8 @@ hal_server_domain(hal_fingerprint_oppo_compat, hal_fingerprint)
+ type hal_fingerprint_oppo_compat_exec, exec_type, vendor_file_type, file_type;
+ init_daemon_domain(hal_fingerprint_oppo_compat)
+ 
++# Surface Display Topology
++type hal_displaytopology_hwservice, hwservice_manager_type;
+ 
+ type hal_fingerprint_oppo, domain;
+ allow hal_fingerprint_oppo vendor_default_prop:property_service { set };
+diff --git a/sepolicy/service.te b/sepolicy/service.te
+index a9120f966..715fa10fe 100644
+--- a/sepolicy/service.te
++++ b/sepolicy/service.te
+@@ -1 +1,2 @@
+ type qcrilam_service,    service_manager_type;
++type duo_service, service_manager_type;
+diff --git a/sepolicy/service_contexts b/sepolicy/service_contexts
+index a390e3f1c..05cbfcb62 100644
+--- a/sepolicy/service_contexts
++++ b/sepolicy/service_contexts
+@@ -14,3 +14,8 @@ android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/sysbta    u:obje
+ 
+ # QcRilAm
+ me.phh.qcrilam                                                            u:object_r:qcrilam_service:s0
++
++# Surface DisplayTopology HIDL
++vendor.surface.displaytopology::IDisplayTopology                          u:object_r:hal_displaytopology_hwservice:s0
++
++com.thain.duo                                                             u:object_r:duo_service:s0
+diff --git a/sepolicy/surface.te b/sepolicy/surface.te
+new file mode 100644
+index 000000000..b6b87a3a1
+--- /dev/null
++++ b/sepolicy/surface.te
+@@ -0,0 +1,5 @@
++# add_hwservice(hal_graphics_composer_server, hal_displaytopology_hwservice);
++allow duo_service hal_displaytopology_hwservice:hwservice_manager find;
++allow duo_service hal_graphics_composer_default:binder { call };
++allow system_app hal_displaytopology_hwservice:hwservice_manager find;
++allow system_app hal_graphics_composer_default:binder { call };

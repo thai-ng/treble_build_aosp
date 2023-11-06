@@ -108,7 +108,7 @@ generateOta() {
                 name="system-duo-aosp"
             fi
             size=$(wc -c $file | awk '{print $1}')
-            url="https://github.com/thain/treble_build_aosp/releases/download/$version/$filename"
+            url="https://github.com/thai-ng/treble_build_aosp/releases/download/$version/$filename"
             json="${json} {\"name\": \"$name\",\"size\": \"$size\",\"url\": \"$url\"},"
         done
         json="${json%?}]}"
@@ -126,8 +126,8 @@ setupEnv
 buildTrebleApp
 # buildVanillaVariant
 buildGappsVariant
-generatePackages
-generateOta
+# generatePackages
+# generateOta
 
 END=$(date +%s)
 ELAPSEDM=$(($(($END-$START))/60))
