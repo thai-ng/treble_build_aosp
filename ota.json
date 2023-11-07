@@ -1,11 +1,11 @@
 {
-  "version": "v2023.10.12",
-  "date": "1697140258",
+  "version": "v2023.11.06",
+  "date": "1699335545",
   "variants": [
     {
       "name": "system-duo-aosp",
-      "size": "1235827740",
-      "url": "https://github.com/thai-ng/treble_build_aosp/releases/download/v2023.10.12/system-duo-aosp-14.0-20231012.img.xz"
+      "size": "1243474148",
+      "url": "https://github.com/thai-ng/treble_build_aosp/releases/download/v2023.11.06/system-duo-aosp-14.0-20231106.img.xz"
     }
   ]
 }

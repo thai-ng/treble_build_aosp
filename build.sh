@@ -14,7 +14,7 @@ BL=$PWD/treble_build_aosp
 BD=$HOME/builds
 
 initRepos() {
-    if [ ! -d .repo ]; then
+    # if [ ! -d .repo ]; then
         echo "--> Initializing workspace"
         repo init -u https://android.googlesource.com/platform/manifest -b android-14.0.0_r11
         echo
@@ -23,7 +23,7 @@ initRepos() {
         mkdir -p .repo/local_manifests
         cp $BL/manifest.xml .repo/local_manifests/aosp.xml
         echo
-    fi
+    # fi
 }
 
 syncRepos() {
@@ -41,6 +41,26 @@ applyPatches() {
     bash $BL/apply-patches.sh $BL personal
     echo
 
+    pushd $PWD/frameworks/base
+    git checkout duo-update
+    popd
+
+    pushd $PWD/packages/apps/Launcher3
+    git checkout duo-update
+    popd
+
+    pushd $PWD/packages/apps/Settings
+    git checkout duo-update
+    popd
+
+    pushd $PWD/treble_app
+    git checkout duo-update
+    popd
+
+    pushd $PWD/device/phh/treble
+    git checkout duo-update
+    popd
+    
     echo "--> Generating makefiles"
     cd device/phh/treble
     cp $BL/aosp.mk .
@@ -51,8 +71,11 @@ applyPatches() {
 
 setupEnv() {
     echo "--> Setting up build environment"
+    echo $BD
     source build/envsetup.sh &>/dev/null
+    echo "got here"
     mkdir -p $BD
+    echo "here"
     echo
 }
 
@@ -145,8 +168,8 @@ setupEnv
 buildTrebleApp
 # buildVanillaVariant
 buildGappsVariant
-# generatePackages
-# generateOta
+generatePackages
+generateOta
 
 END=$(date +%s)
 ELAPSEDM=$(($(($END-$START))/60))
