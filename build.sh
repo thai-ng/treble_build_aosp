@@ -103,7 +103,7 @@ buildGappsVariant() {
     # make -j$(nproc --all) installclean
     make -j$(nproc --all) systemimage
     # make -j4 systemimage
-    . $BL/flash.sh
+    # . $BL/flash.sh
     cp $OUT/system.img $BD/system-duo-aosp.img
     echo
 }
@@ -165,7 +165,7 @@ START=$(date +%s)
 # syncRepos
 # applyPatches
 setupEnv
-buildTrebleApp
+# buildTrebleApp
 # buildVanillaVariant
 buildGappsVariant
 generatePackages
