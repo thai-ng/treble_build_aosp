@@ -147,7 +147,7 @@ generateOta() {
             elif [[ $filename == *"vanilla"* ]]; then
                 name="treble_arm64_bvN"
             else
-                name="system-duo-aosp"
+                name="treble_arm64_bgN"
             fi
             size=$(wc -c $file | awk '{print $1}')
             url="https://github.com/thai-ng/treble_build_aosp/releases/download/$version/$filename"
