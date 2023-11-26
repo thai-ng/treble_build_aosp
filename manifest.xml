@@ -20,7 +20,13 @@
   <project name="thai-ng/PostureProcessor" path="packages/thain/services/PostureProcessor" remote="github" revision="main"/>
   <project name="thai-ng/packages_apps_Launcher3" path="packages/apps/Launcher3" remote="github" revision="duo-fourteen-plus"/>
   <project name="ponces/treble_adapter" path="treble_adapter" remote="github" revision="master" />
+  <project name="ponces/packages_apps_ParanoidSense" path="packages/apps/ParanoidSense" remote="github" revision="uvite" />
+  <project name="ponces/packages_services_OmniJaws" path="packages/services/OmniJaws" remote="github" revision="android-14.0" />
 
   <!-- LineageOS -->
+  <remove-project name="platform/packages/apps/Launcher3" />
+  <remove-project name="platform/packages/apps/ThemePicker" />
   <project name="LineageOS/android_packages_apps_Aperture" path="packages/apps/Aperture" remote="github" revision="lineage-21.0" />
+  <project name="ponces/android_packages_apps_Trebuchet" path="packages/apps/Trebuchet" remote="github" revision="lineage-21.0-ponces" />
+  <project name="LineageOS/android_packages_apps_ThemePicker" path="packages/apps/ThemePicker" remote="github" revision="lineage-21.0" />
 </manifest>
