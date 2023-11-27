@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 
 patches="$(readlink -f -- $1)"
 tree="$2"

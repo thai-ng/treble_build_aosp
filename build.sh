@@ -40,26 +40,6 @@ applyPatches() {
     echo "--> Applying personal patches"
     bash $BL/apply-patches.sh $BL personal
     echo
-
-    pushd $PWD/frameworks/base
-    git checkout duo-update
-    popd
-
-    pushd $PWD/packages/apps/Launcher3
-    git checkout duo-update
-    popd
-
-    pushd $PWD/packages/apps/Settings
-    git checkout duo-update
-    popd
-
-    pushd $PWD/treble_app
-    git checkout duo-update
-    popd
-
-    pushd $PWD/device/phh/treble
-    git checkout duo-update
-    popd
     
     echo "--> Generating makefiles"
     cd device/phh/treble
@@ -103,7 +83,7 @@ buildGappsVariant() {
     # make -j$(nproc --all) installclean
     make -j$(nproc --all) systemimage
     # make -j4 systemimage
-    # . $BL/flash.sh
+    . $BL/flash.sh
     cp $OUT/system.img $BD/system-duo-aosp.img
     echo
 }

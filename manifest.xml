@@ -4,10 +4,8 @@
   <remote name="gitlab" fetch="https://gitlab.com" />
 
   <!-- TrebleDroid -->
-  <project name="TrebleDroid/device_phh_treble" path="device/phh/treble" remote="github" revision="android-14.0" />
   <project name="TrebleDroid/vendor_hardware_overlay" path="vendor/hardware_overlay" remote="github" revision="pie" />
   <project name="TrebleDroid/vendor_interfaces" path="vendor/interfaces" remote="github" revision="android-14.0" />
-  <project name="TrebleDroid/treble_app" path="treble_app" remote="github" revision="master" />
   <project name="phhusson/vendor_magisk" path="vendor/magisk" remote="github" revision="android-10.0" />
   <project name="AndyCGYan/android_packages_apps_QcRilAm" path="packages/apps/QcRilAm" remote="github" revision="master" />
   <project name="platform/prebuilts/vndk/v28" path="prebuilts/vndk/v28" remote="aosp" revision="204f1bad00aaf480ba33233f7b8c2ddaa03155dd" clone-depth="1" />
@@ -15,10 +13,6 @@
   <!-- ponces -->
   <project name="ponces/vendor_ponces" path="vendor/ponces" remote="github" revision="android-14.0" />
   <project name="ponces/vendor_gapps" path="vendor/gapps" remote="gitlab" revision="android-14.0" clone-depth="1" />
-  <project name="thai-ng/rro_overlays" path="packages/thain/rro_overlays" remote="github" revision="main" />
-  <project name="thai-ng/vendor-surface" path="vendor/surface" remote="github" revision="main" />
-  <project name="thai-ng/PostureProcessor" path="packages/thain/services/PostureProcessor" remote="github" revision="main"/>
-  <project name="thai-ng/packages_apps_Launcher3" path="packages/apps/Launcher3" remote="github" revision="duo-fourteen-plus"/>
   <project name="ponces/treble_adapter" path="treble_adapter" remote="github" revision="master" />
   <project name="ponces/packages_apps_ParanoidSense" path="packages/apps/ParanoidSense" remote="github" revision="uvite" />
   <project name="ponces/packages_services_OmniJaws" path="packages/services/OmniJaws" remote="github" revision="android-14.0" />
@@ -27,6 +21,20 @@
   <remove-project name="platform/packages/apps/Launcher3" />
   <remove-project name="platform/packages/apps/ThemePicker" />
   <project name="LineageOS/android_packages_apps_Aperture" path="packages/apps/Aperture" remote="github" revision="lineage-21.0" />
-  <project name="ponces/android_packages_apps_Trebuchet" path="packages/apps/Trebuchet" remote="github" revision="lineage-21.0-ponces" />
+  <!-- <project name="ponces/android_packages_apps_Trebuchet" path="packages/apps/Trebuchet" remote="github" revision="lineage-21.0-ponces" /> -->
   <project name="LineageOS/android_packages_apps_ThemePicker" path="packages/apps/ThemePicker" remote="github" revision="lineage-21.0" />
+
+  <!-- thain -->
+  
+  <remove-project name="platform/frameworks/base" />
+  <remove-project name="platform/packages/apps/Settings" />
+  <project name="thai-ng/device_phh_treble" path="device/phh/treble" remote="github" revision="android-14.0-duo" />
+  <project name="thai-ng/rro_overlays" path="packages/thain/rro_overlays" remote="github" revision="main" />
+  <project name="thai-ng/vendor-surface" path="vendor/surface" remote="github" revision="main" />
+  <project name="thai-ng/PostureProcessor" path="packages/thain/services/PostureProcessor" remote="github" revision="main"/>
+  <project name="thai-ng/platform_frameworks_base" path="frameworks/base" remote="github" revision="duo"/>
+  <project name="thai-ng/platform_packages_apps_settings" path="packages/apps/Settings" remote="github" revision="duo"/>
+  <project name="thai-ng/treble_app" path="treble_app" remote="github" revision="duo" />
+  <project name="thai-ng/packages_apps_Launcher3" path="packages/apps/Launcher3" remote="github" revision="duo-fourteen-plus"/>
+
 </manifest>
