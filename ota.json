@@ -1,11 +1,2 @@
 {
-  "version": "v2023.11.27",
-  "date": "1701073025",
-  "variants": [
-    {
-      "name": "treble_arm64_bgN",
-      "size": "1297308500",
-      "url": "https://github.com/thai-ng/treble_build_aosp/releases/download/v2023.11.27/system-duo-aosp-14.0-20231127.img.xz"
-    }
-  ]
 }
